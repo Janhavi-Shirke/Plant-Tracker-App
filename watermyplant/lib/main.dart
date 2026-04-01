@@ -6,17 +6,22 @@ import 'package:intl/intl.dart';
 import 'firestore_service.dart';
 import 'add_plant_screen.dart';
 import 'storage_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env"); // 👈 IMPORTANT
+  
+
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyD1tJwR4chI2uvYia0j7L4G4IJEsS2S76M",
-      authDomain: "planttracker-bfedc.firebaseapp.com",
-      projectId: "planttracker-bfedc",
-      storageBucket: "planttracker-bfedc.firebasestorage.app",
-      messagingSenderId: "656418051323",
-      appId: "1:656418051323:web:e9c97009809439aac6cc5e",
+    options: FirebaseOptions(
+      apiKey: dotenv.env['API_KEY']!,
+      authDomain: dotenv.env['AUTH_DOMAIN']!,
+      projectId: dotenv.env['PROJECT_ID']!,
+      storageBucket: dotenv.env['STORAGE_BUCKET']!,
+      messagingSenderId: dotenv.env['MESSAGING_SENDER_ID']!,
+      appId: dotenv.env['APP_ID']!,
     ),
   );
   runApp(MyApp());
@@ -31,7 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
-      ),
+    ),
       home: HomeScreen(),
     );
   }
